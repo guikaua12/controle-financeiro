@@ -1,0 +1,13 @@
+.resume-container {
+    max-width: 1200px;
+    margin-top: -50px;
+
+    /*background-color: chocolate;*/
+}
+
+.resume-container .card-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}

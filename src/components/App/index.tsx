@@ -1,10 +1,18 @@
-import './index.css'
+import React from "react";
+import Header from "../../layout/Header";
+import Resume from "../../pages/Resume";
+import Container from '../../layout/Container';
+import './index.css';
 
 function App() {
-  return (
-    <div className="App">
-    </div>
+    return (
+    <>
+        <Header/>
+        <Container>
+            <Resume/>
+        </Container>
+    </>
   )
 }
 
-export default App
+export default App;

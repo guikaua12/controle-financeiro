@@ -1,0 +1,7 @@
+.container {
+    max-width: 1000px;
+    min-height: 80vh;
+    margin: 0 auto;
+
+    /*background-color: green;*/
+}

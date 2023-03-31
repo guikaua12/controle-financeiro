@@ -1,0 +1,11 @@
+header.header {
+    display: flex;
+    justify-content: center;
+    background-color: #008280;
+    height: 150px;
+    padding: 40px;
+}
+
+header.header h1 {
+    color: white;
+}

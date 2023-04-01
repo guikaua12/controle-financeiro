@@ -11,33 +11,71 @@ type Record = {
 
 function Resume() {
 
+    const [records, setRecords] = useState<Array<Record>>(loadRecords());
+
     const [record, setRecord] = useState<Record>({
         description: '',
         value: 0,
         type: 'in'
     });
 
-    function handleChange(e) {
+    function loadRecords(): Array<Record> {
+        const localRecords = localStorage.getItem('controle_financeiro');
+        
+        return JSON.parse(localRecords || '[]');
+    }
+
+    function addRecord(record: Record): void {
+        setRecords(records => {
+            const newRecords = [record, ...records];
+            localStorage.setItem('controle_financeiro', JSON.stringify(newRecords));
+            
+            return newRecords;
+        });
+    }
+
+    function handleChange(e): void {
         setRecord(record => ({...record, [e.target.name]: e.target.value}));
+    }
+
+    function handleAddRecordSubmit(e): void {
+        e.preventDefault();
+
+        if(!record.description) {
+            return;
+        }
+
+        if(!record.value || isNaN(record.value) || record.value < 1) {
+            return;
+        }
+
+        addRecord(record);
+        setRecord({
+            description: '',
+            value: 0,
+            type: 'in'
+        });
     }
 
     return (
         <div className='resume-container'>
+            {/* cards */}
             <div className="card-wrapper">
-                <Card title='Entradas' value='R$1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
-                <Card title='Saídas' value='R$1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
-                <Card title='Total' value='R$1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Entradas' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Saídas' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Total' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
             </div>
 
-            <form className="control-form">
+            {/* control form */}
+            <form className="control-form" onSubmit={handleAddRecordSubmit}>
                 
                 <div className='input-wrapper'>
                     <label htmlFor="description">Descrição</label>
-                    <input id='description' name='description' type="text" placeholder='Insira a descrição' onChange={handleChange}/>
+                    <input id='description' name='description' type="text" placeholder='Insira a descrição' value={record.description} onChange={handleChange}/>
                 </div>
                 <div className='input-wrapper'>
                     <label htmlFor="value">Valor</label>
-                    <input id='value' name='value' type="text" placeholder='Insira o valor' onChange={handleChange}/>
+                    <input id='value' name='value' type="text" placeholder='Insira o valor' value={record.value} onChange={handleChange}/>
                 </div>
     
                 <div className="radio-wrapper">
@@ -53,6 +91,29 @@ function Resume() {
 
                 <button type="submit" className='submit-button'>ADICIONAR</button>
             </form>
+
+            <div className="records-table-wrapper">
+                <table className='records-table'>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            records.map(record => 
+                                <tr>
+                                    <td>{record.description}</td>
+                                    <td>{record.value}</td>
+                                    <td>{record.type}</td>
+                                </tr>)
+                        }
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     );
 }

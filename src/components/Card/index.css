@@ -3,7 +3,7 @@
     padding: 10px;
     min-width: 300px;
     border-radius: 5px;
-    /*flex-grow: 1;*/
+    flex-grow: 1;
 }
 
 .card .wrapper1 {

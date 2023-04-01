@@ -34,6 +34,20 @@ function Resume() {
         });
     }
 
+    function getTotal(type: 'in' | 'out' | 'total') {
+        let value = 0;
+
+        records.filter(record => record.type === type).forEach(record => {
+            value += Number(record.value);
+        });
+
+        if(type === 'total') {
+            value += getTotal('in') + getTotal('out');
+        }
+
+        return value;
+    }
+
     function handleChange(e): void {
         setRecord(record => ({...record, [e.target.name]: e.target.value}));
     }
@@ -61,9 +75,9 @@ function Resume() {
         <div className='resume-container'>
             {/* cards */}
             <div className="card-wrapper">
-                <Card title='Entradas' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
-                <Card title='Saídas' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
-                <Card title='Total' value='R$ 1000' icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Entradas' value={`R$ ${getTotal('in')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Saídas' value={`R$ ${getTotal('out')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Total' value={`R$ ${getTotal('total')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
             </div>
 
             {/* control form */}

@@ -34,7 +34,7 @@ function Resume() {
         });
     }
 
-    function getTotal(type: 'in' | 'out' | 'total') {
+    function getTotal(type: 'in' | 'out' | 'total'): number {
         let value = 0;
 
         records.filter(record => record.type === type).forEach(record => {

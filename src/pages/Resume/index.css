@@ -9,5 +9,44 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 20px;
+}
+
+.control-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    margin-top: 20px;
+    padding: 15px 50px;
+}
+
+.control-form .input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-form .radio-wrapper {
+    display: flex;
+    justify-content: space-between;
     gap: 10px;
+}
+
+.control-form .submit-button {
+    background-color: #008280;
+    padding: 15px 5px;
+    outline: none;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+input {
+    padding: 5px;
+    outline: none;
+    border: 2px solid #d8d6d6;
+    border-radius: 5px;
 }

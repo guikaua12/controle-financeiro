@@ -94,7 +94,7 @@ function Resume() {
     
                 <div className="radio-wrapper">
                     <label>
-                        <input id='in' type="radio" name='type' value='in' onChange={handleChange}/>
+                        <input id='in' type="radio" name='type' value='in' checked onChange={handleChange}/>
                         Entrada
                     </label>
                     <label>

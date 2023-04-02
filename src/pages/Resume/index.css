@@ -71,6 +71,26 @@ input {
     border-bottom: 3px solid #EFEFEF;
 }
 
+.records-table-wrapper table.records-table th.action-col {
+    width: 50px;
+}
+
+.records-table-wrapper table.records-table th.type-col {
+    width: 150px;
+}
+
 .records-table-wrapper table.records-table td {
     padding: 10px 0;
+}
+
+.in-icon {
+   color: green; 
+}
+
+.out-icon {
+    color: red; 
+}
+
+.remove-icon {
+    cursor: pointer;
 }

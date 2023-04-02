@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Card from '../../components/Card';
-import {FaDollarSign} from 'react-icons/fa';
+import {FaDollarSign, FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaTrash} from 'react-icons/fa';
 import './index.css';
+
 
 type Record = {
     description: string,
@@ -75,8 +76,8 @@ function Resume() {
         <div className='resume-container'>
             {/* cards */}
             <div className="card-wrapper">
-                <Card title='Entradas' value={`R$ ${getTotal('in')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
-                <Card title='Saídas' value={`R$ ${getTotal('out')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
+                <Card title='Entradas' value={`R$ ${getTotal('in')}`} icon={<FaRegArrowAltCircleUp size={20}></FaRegArrowAltCircleUp>}></Card>
+                <Card title='Saídas' value={`R$ ${getTotal('out')}`} icon={<FaRegArrowAltCircleDown size={20}></FaRegArrowAltCircleDown>}></Card>
                 <Card title='Total' value={`R$ ${getTotal('total')}`} icon={<FaDollarSign size={20}></FaDollarSign>}></Card>
             </div>
 
@@ -110,9 +111,10 @@ function Resume() {
                 <table className='records-table'>
                     <thead>
                         <tr>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                            <th>Tipo</th>
+                            <th className='description-col'>Descrição</th>
+                            <th className='value-col'>Valor</th>
+                            <th className='type-col'>Tipo</th>
+                            <th className='action-col'></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,7 +123,8 @@ function Resume() {
                                 <tr>
                                     <td>{record.description}</td>
                                     <td>{record.value}</td>
-                                    <td>{record.type}</td>
+                                    <td>{record.type === 'in' ? <FaRegArrowAltCircleUp className='in-icon'/> : <FaRegArrowAltCircleDown className='out-icon'/>}</td>
+                                    <td> <FaTrash className='remove-icon' onClick={}/> </td>
                                 </tr>)
                         }
                     </tbody>

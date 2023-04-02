@@ -1,6 +1,7 @@
 # Controle Financeiro
 
-Projeto simples feito em React, para controle fincaneiro, você pode registrar saída e entrada.
+Projeto simples feito em React, para controle fincaneiro, você pode registrar saída e entrada, e também remover registros.
+
 Os registros são salvos no Local Storage.
 
 ## Demo:

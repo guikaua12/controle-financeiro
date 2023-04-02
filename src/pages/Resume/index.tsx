@@ -5,6 +5,7 @@ import './index.css';
 
 
 type Record = {
+    id: string,
     description: string,
     value: number,
     type: 'in' | 'out'
@@ -13,8 +14,8 @@ type Record = {
 function Resume() {
 
     const [records, setRecords] = useState<Array<Record>>(loadRecords());
-
     const [record, setRecord] = useState<Record>({
+        id: generateUniqueId(),
         description: '',
         value: 0,
         type: 'in'
@@ -31,6 +32,21 @@ function Resume() {
             const newRecords = [record, ...records];
             localStorage.setItem('controle_financeiro', JSON.stringify(newRecords));
             
+            return newRecords;
+        });
+    }
+
+    function generateUniqueId(): string {
+        const timestamp = Date.now().toString(36);
+        const randomStr = Math.random().toString(36).substr(2, 5);
+        return `${timestamp}${randomStr}`;
+      }
+
+    function removeRecord(record: Record): void {
+        setRecords(records => {
+            const newRecords = records.filter(rec => rec.id !== record.id);
+            localStorage.setItem('controle_financeiro', JSON.stringify(newRecords));
+
             return newRecords;
         });
     }
@@ -66,6 +82,7 @@ function Resume() {
 
         addRecord(record);
         setRecord({
+            id: generateUniqueId(),
             description: '',
             value: 0,
             type: 'in'
@@ -120,11 +137,11 @@ function Resume() {
                     <tbody>
                         {
                             records.map(record => 
-                                <tr>
+                                <tr key={record.id}>
                                     <td>{record.description}</td>
                                     <td>{record.value}</td>
                                     <td>{record.type === 'in' ? <FaRegArrowAltCircleUp className='in-icon'/> : <FaRegArrowAltCircleDown className='out-icon'/>}</td>
-                                    <td> <FaTrash className='remove-icon' onClick={}/> </td>
+                                    <td> <FaTrash className='remove-icon' onClick={e => removeRecord(record)}/> </td>
                                 </tr>)
                         }
                     </tbody>

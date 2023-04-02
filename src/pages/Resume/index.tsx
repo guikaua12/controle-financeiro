@@ -8,7 +8,7 @@ type Record = {
     id: string,
     description: string,
     value: number,
-    type: 'in' | 'out'
+    type: 'in' | 'out' | ''
 };
 
 function Resume() {
@@ -18,7 +18,7 @@ function Resume() {
         id: generateUniqueId(),
         description: '',
         value: 0,
-        type: 'in'
+        type: ''
     });
 
     function loadRecords(): Array<Record> {
@@ -81,12 +81,12 @@ function Resume() {
         }
 
         addRecord(record);
-        setRecord({
+        setRecord(record => ({
             id: generateUniqueId(),
             description: '',
             value: 0,
-            type: 'in'
-        });
+            type: record.type
+        }));
     }
 
     return (
@@ -112,7 +112,7 @@ function Resume() {
     
                 <div className="radio-wrapper">
                     <label>
-                        <input id='in' type="radio" name='type' value='in' checked onChange={handleChange}/>
+                        <input id='in' type="radio" name='type' value='in' onChange={handleChange}/>
                         Entrada
                     </label>
                     <label>

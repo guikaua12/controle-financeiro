@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Card from '../../components/Card';
+import RecordItem from '../../components/Record';
 import {FaDollarSign, FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaTrash} from 'react-icons/fa';
 import './index.css';
 
 
-type Record = {
-    id: string,
+export type RecordType = {
+    id: string
     description: string,
     value: number,
     type: 'in' | 'out' | ''
@@ -13,21 +14,21 @@ type Record = {
 
 function Resume() {
 
-    const [records, setRecords] = useState<Array<Record>>(loadRecords());
-    const [record, setRecord] = useState<Record>({
+    const [records, setRecords] = useState<Array<RecordType>>(loadRecords());
+    const [record, setRecord] = useState<RecordType>({
         id: generateUniqueId(),
         description: '',
         value: 0,
         type: ''
     });
 
-    function loadRecords(): Array<Record> {
+    function loadRecords(): Array<RecordType> {
         const localRecords = localStorage.getItem('controle_financeiro');
         
         return JSON.parse(localRecords || '[]');
     }
 
-    function addRecord(record: Record): void {
+    function addRecord(record: RecordType): void {
         setRecords(records => {
             const newRecords = [record, ...records];
             localStorage.setItem('controle_financeiro', JSON.stringify(newRecords));
@@ -36,20 +37,23 @@ function Resume() {
         });
     }
 
-    function generateUniqueId(): string {
-        const timestamp = Date.now().toString(36);
-        const randomStr = Math.random().toString(36).substr(2, 5);
-        return `${timestamp}${randomStr}`;
-      }
+    function generateUniqueId(length: number = 8) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let uniqueId = '';
+        for (let i = 0; i < length; i++) {
+          uniqueId += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return uniqueId;
+    }
 
-    function removeRecord(record: Record): void {
+    const removeRecord = useCallback((record: RecordType) => {
         setRecords(records => {
-            const newRecords = records.filter(rec => rec.id !== record.id);
+            const newRecords = records.filter(rec => rec !== record);
             localStorage.setItem('controle_financeiro', JSON.stringify(newRecords));
 
             return newRecords;
         });
-    }
+    }, []);
 
     function getTotal(type: 'in' | 'out' | 'total'): number {
         let value = 0;
@@ -81,12 +85,7 @@ function Resume() {
         }
 
         addRecord(record);
-        setRecord(record => ({
-            id: generateUniqueId(),
-            description: '',
-            value: 0,
-            type: record.type
-        }));
+        setRecord(record => ({...record, id: generateUniqueId()}));
     }
 
     return (
@@ -136,13 +135,7 @@ function Resume() {
                     </thead>
                     <tbody>
                         {
-                            records.map(record => 
-                                <tr key={record.id}>
-                                    <td>{record.description}</td>
-                                    <td>{record.value}</td>
-                                    <td>{record.type === 'in' ? <FaRegArrowAltCircleUp className='in-icon'/> : <FaRegArrowAltCircleDown className='out-icon'/>}</td>
-                                    <td> <FaTrash className='remove-icon' onClick={e => removeRecord(record)}/> </td>
-                                </tr>)
+                            records.map((record, index) => <RecordItem key={record.id} record={record} removeRecord={removeRecord}/>)
                         }
                     </tbody>
                 </table>
